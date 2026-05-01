@@ -89,7 +89,25 @@ function openCart(){
 function closeCart(){ document.getElementById('cartModal').style.display = 'none'; }
 function clearCart(){ cart = []; saveCart(); openCart(); }
 function makeQR(){
-  QRCode.toCanvas(document.getElementById('qrcode'), window.location.href, { width: 190, margin: 1 }, err => { if(err) console.error(err); });
+  // GitHub Pages canlı sitesi için QR kod oluştur
+  const githubUrl = 'https://fatihgoral.github.io/Example2_kitchen_website/';
+  QRCode.toCanvas(document.getElementById('qrcode'), githubUrl, { width: 190, margin: 1 }, err => { if(err) console.error(err); });
 }
 
-document.addEventListener('DOMContentLoaded', () => { renderNav(); renderMenu(); updateCart(); makeQR(); });
+function downloadQR(){
+  const canvas = document.getElementById('qrcode').querySelector('canvas');
+  if(canvas){
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'Agora_Mutfak_QR.png';
+    link.click();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => { 
+  renderNav(); 
+  renderMenu(); 
+  updateCart(); 
+  makeQR();
+  document.getElementById('downloadQR').addEventListener('click', downloadQR);
+});
